@@ -6,10 +6,10 @@ package first.robot;
 
 import java.util.function.DoubleSupplier;
 
-import org.wpilib.command2.CommandScheduler;
-import org.wpilib.driverstation.Joystick;
-import org.wpilib.framework.TimedRobot;
-
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.TimedRobot;
+import first.robot.autons.SimpleAutons;
 import first.robot.subsystems.XRPDrivetrain;
 
 /**
@@ -21,8 +21,8 @@ public class Robot extends TimedRobot {
   private final XRPDrivetrain m_drivetrain = new XRPDrivetrain();
   private Joystick m_controller = new Joystick(0);
 
-  private DoubleSupplier m_leftY = () -> m_controller.getRawAxis(0);
-  private DoubleSupplier m_rightY = () -> m_controller.getRawAxis(1);
+  private DoubleSupplier m_leftY = () -> -m_controller.getRawAxis(1);
+  private DoubleSupplier m_rightY = () -> -m_controller.getRawAxis(4);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -47,11 +47,14 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_drivetrain.resetEncoders();
+    CommandScheduler.getInstance().schedule(SimpleAutons.forward(m_drivetrain));
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    CommandScheduler.getInstance().run();
+  }
 
   /** This function is called once when teleop is enabled. */
   @Override
@@ -62,7 +65,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    System.out.println("teleop start");
     CommandScheduler.getInstance().run();
   }
 
@@ -73,12 +75,4 @@ public class Robot extends TimedRobot {
   /** This function is called periodically when disabled. */
   @Override
   public void disabledPeriodic() {}
-
-  /** This function is called once when utility mode is enabled. */
-  @Override
-  public void utilityInit() {}
-
-  /** This function is called periodically during utility mode. */
-  @Override
-  public void utilityPeriodic() {}
 }

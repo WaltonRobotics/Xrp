@@ -6,11 +6,11 @@ package first.robot.subsystems;
 
 import java.util.function.DoubleSupplier;
 
-import org.wpilib.command2.Command;
-import org.wpilib.command2.Commands;
-import org.wpilib.drive.DifferentialDrive;
-import org.wpilib.hardware.rotation.Encoder;
-import org.wpilib.xrp.XRPMotor;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.xrp.XRPMotor;
 
 public class XRPDrivetrain {
   private static final double kGearRatio =
@@ -31,7 +31,7 @@ public class XRPDrivetrain {
 
   // Set up the differential drive controller
   private final DifferentialDrive diffDrive =
-      new DifferentialDrive(leftMotor::setThrottle, rightMotor::setThrottle);
+      new DifferentialDrive(leftMotor, rightMotor);
 
   /** Creates a new XRPDrivetrain. */
   public XRPDrivetrain() {
