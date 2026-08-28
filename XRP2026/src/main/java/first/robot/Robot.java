@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
   private XboxController m_controller = new XboxController(0);
 
   private DoubleSupplier m_leftY = () -> -m_controller.getLeftY();
-  private DoubleSupplier m_rightX = () -> -m_controller.getRightX();
+  private DoubleSupplier m_rightY = () -> -m_controller.getRightY();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-    CommandScheduler.getInstance().schedule(m_drivetrain.arcadeDriveCmd(m_leftY, m_rightX));
+    CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_leftY, m_rightY));
   }
 
   /** This function is called periodically during operator control. */
