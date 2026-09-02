@@ -44,13 +44,22 @@ public class XRPDrivetrain {
     rightMotor.setInverted(true);
   }
 
-    public void arcadeDrive(double xaxisVelocity, double zaxisRotate) {
+  public void arcadeDrive(double xaxisVelocity, double zaxisRotate) {
       diffDrive.arcadeDrive(xaxisVelocity, zaxisRotate);
     }
 
   public Command arcadeDriveCmd(DoubleSupplier supp_xaxisVelocity, DoubleSupplier supp_zaxisRotate) {
     return Commands.run(() -> arcadeDrive(supp_xaxisVelocity.getAsDouble(), supp_zaxisRotate.getAsDouble()));
   }
+
+  public void tankDrive(double supp_leftWheelVelocity, double supp_rightWheelVelocity) {
+      diffDrive.tankDrive(supp_leftWheelVelocity, supp_rightWheelVelocity);
+    }
+
+  public Command tankDriveCmd(DoubleSupplier supp_leftWheelVelocity, DoubleSupplier supp_rightWheelVelocity) {
+    return Commands.run(() -> tankDrive(supp_leftWheelVelocity.getAsDouble(), supp_rightWheelVelocity.getAsDouble()));
+  }
+
 
   public void resetEncoders() {
     leftEncoder.reset();

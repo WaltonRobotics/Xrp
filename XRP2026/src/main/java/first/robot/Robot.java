@@ -5,6 +5,7 @@
 package first.robot;
 
 import java.util.function.DoubleSupplier;
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -23,6 +24,12 @@ public class Robot extends TimedRobot {
 
   private DoubleSupplier m_leftY = () -> -m_controller.getLeftY();
   private DoubleSupplier m_rightX = () -> -m_controller.getRightX();
+  private DoubleSupplier m_tankLeftY = () -> -m_controller.getLeftY();
+  private DoubleSupplier m_tankRightY = () -> -m_controller.getRightY(); // what does - due
+  private BooleanSupplier m_buttonPressedA = () -> m_controller.getAButton();
+  private BooleanSupplier m_buttonPressedB = () -> m_controller.getBButton();
+  private BooleanSupplier m_buttonPressedX = () -> m_controller.getXButton();
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -47,25 +54,42 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_drivetrain.resetEncoders();
-    CommandScheduler.getInstance().schedule(SimpleAutons.forward(m_drivetrain));
-  }
+    CommandScheduler.getInstance().schedule(SimpleAutons.doItAll(m_drivetrain));
+       //CommandScheduler.getInstance().schedule(SimpleAutons.backward(m_drivetrain));
+ // should make robot go backward NOT TESTED
+    }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
+  //  CommandScheduler.getInstance().schedule(SimpleAutons.backward(m_drivetrain));
   }
 
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-    CommandScheduler.getInstance().schedule(m_drivetrain.arcadeDriveCmd(m_leftY, m_rightX));
+    if(m_buttonPressedA.getAsBoolean() == true) {
+      CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_tankLeftY, m_tankRightY));
   }
+    if(m_buttonPressedB.getAsBoolean() == true) {
+      CommandScheduler.getInstance().schedule(m_drivetrain.arcadeDriveCmd(m_leftY, m_rightX));
+  }
+}
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
+        if(m_buttonPressedA.getAsBoolean() == true) {
+      CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_tankLeftY, m_tankRightY));
+  }
+    if(m_buttonPressedB.getAsBoolean() == true) {
+      CommandScheduler.getInstance().schedule(m_drivetrain.arcadeDriveCmd(m_leftY, m_rightX));
+  }
+    if(m_buttonPressedX.getAsBoolean() == true) {
+      CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_leftY, m_tankRightY));
+    }
   }
 
   /** This function is called once when the robot is disabled. */
