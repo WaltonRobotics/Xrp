@@ -30,8 +30,6 @@ public class Robot extends TimedRobot {
    */
   public Robot() {}
 
-  //testing
-
   /** This function is for configuring all button bindings. */
   private void configureButtonBindings() {}
 
