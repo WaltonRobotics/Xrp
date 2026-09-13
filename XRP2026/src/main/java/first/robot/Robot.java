@@ -25,10 +25,13 @@ public class Robot extends TimedRobot {
   private DoubleSupplier m_leftY = () -> -m_controller.getLeftY();
   private DoubleSupplier m_rightX = () -> -m_controller.getRightX();
   private DoubleSupplier m_tankLeftY = () -> -m_controller.getLeftY();
-  private DoubleSupplier m_tankRightY = () -> -m_controller.getRightY(); // what does - due
+  private DoubleSupplier m_tankRightY = () -> -m_controller.getRightY();
+    private DoubleSupplier m_scruedupdesignnumberdos = () -> m_controller.getLeftTriggerAxis();
+  private DoubleSupplier m_scruedupdesignnumberunos = () -> m_controller.getRightTriggerAxis(); // what does - due
   private BooleanSupplier m_buttonPressedA = () -> m_controller.getAButton();
   private BooleanSupplier m_buttonPressedB = () -> m_controller.getBButton();
   private BooleanSupplier m_buttonPressedX = () -> m_controller.getXButton();
+  private BooleanSupplier m_buttonPressedY = () -> m_controller.getYButton();
 
 
   /**
@@ -53,43 +56,53 @@ public class Robot extends TimedRobot {
   /** This function is called once when autonomous is enabled. */
   @Override
   public void autonomousInit() {
-    m_drivetrain.resetEncoders();
-    CommandScheduler.getInstance().schedule(SimpleAutons.doItAll(m_drivetrain));
-       //CommandScheduler.getInstance().schedule(SimpleAutons.backward(m_drivetrain));
+    //CommandScheduler.getInstance().schedule(SimpleAutons.forward2_Feet(m_drivetrain));
+        m_drivetrain.resetEncoders();
+        CommandScheduler.getInstance().schedule(SimpleAutons.forward2_Feet(m_drivetrain));
  // should make robot go backward NOT TESTED
     }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    CommandScheduler.getInstance().run();
-  //  CommandScheduler.getInstance().schedule(SimpleAutons.backward(m_drivetrain));
+
   }
 
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-    if(m_buttonPressedA.getAsBoolean() == true) {
-      CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_tankLeftY, m_tankRightY));
-  }
-    if(m_buttonPressedB.getAsBoolean() == true) {
-      CommandScheduler.getInstance().schedule(m_drivetrain.arcadeDriveCmd(m_leftY, m_rightX));
-  }
+  //  if(m_buttonPressedA.getAsBoolean() == true) {
+  //    CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_tankLeftY, m_tankRightY));
+  //}
+  //  if(m_buttonPressedB.getAsBoolean() == true) {
+    CommandScheduler.getInstance().schedule(m_drivetrain.TarcadeDriveCmd(m_leftY, m_rightX));
+  //}
 }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
-        if(m_buttonPressedA.getAsBoolean() == true) {
-      CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_tankLeftY, m_tankRightY));
-  }
-    if(m_buttonPressedB.getAsBoolean() == true) {
-      CommandScheduler.getInstance().schedule(m_drivetrain.arcadeDriveCmd(m_leftY, m_rightX));
-  }
-    if(m_buttonPressedX.getAsBoolean() == true) {
-      CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_leftY, m_tankRightY));
-    }
+      if(m_buttonPressedA.getAsBoolean() == true) {
+        //CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_tankLeftY, m_tankRightY));
+        m_drivetrain.resetEncoders();
+        CommandScheduler.getInstance().schedule(SimpleAutons.forward2_Feet(m_drivetrain));
+      }
+      if(m_buttonPressedB.getAsBoolean() == true) {
+        //CommandScheduler.getInstance().schedule(m_drivetrain.arcadeDriveCmd(m_leftY, m_rightX));
+        m_drivetrain.resetEncoders();
+        CommandScheduler.getInstance().schedule(SimpleAutons.backward2_Feet(m_drivetrain)); 
+      }
+      if(m_buttonPressedY.getAsBoolean() == true) {
+        //CommandScheduler.getInstance().schedule(m_drivetrain.arcadeDriveCmd(m_scruedupdesignnumberunos, m_scruedupdesignnumberdos));
+        m_drivetrain.resetEncoders();
+        CommandScheduler.getInstance().schedule(SimpleAutons.dance(m_drivetrain)); 
+      }   
+       if(m_buttonPressedX.getAsBoolean() == true) {
+        CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_leftY, m_rightX));
+        //m_drivetrain.resetEncoders();
+        //CommandScheduler.getInstance().schedule(SimpleAutons.spinF(m_drivetrain));  
+      }
   }
 
   /** This function is called once when the robot is disabled. */

@@ -33,6 +33,9 @@ public class XRPDrivetrain {
   private final DifferentialDrive diffDrive =
       new DifferentialDrive(leftMotor, rightMotor);
 
+    private final TestDrive testDrive =
+      new TestDrive(leftMotor, rightMotor);
+
   /** Creates a new XRPDrivetrain. */
   public XRPDrivetrain() {
     // Use inches as unit for encoder distances
@@ -50,6 +53,14 @@ public class XRPDrivetrain {
 
   public Command arcadeDriveCmd(DoubleSupplier supp_xaxisVelocity, DoubleSupplier supp_zaxisRotate) {
     return Commands.run(() -> arcadeDrive(supp_xaxisVelocity.getAsDouble(), supp_zaxisRotate.getAsDouble()));
+  }
+
+  public void TarcadeDrive(double xaxisVelocity, double zaxisRotate) {
+    testDrive.TarcadeDrive(xaxisVelocity, zaxisRotate);
+  }
+
+  public Command TarcadeDriveCmd(DoubleSupplier supp_xaxisVelocity, DoubleSupplier supp_zaxisRotate) {
+    return Commands.run(() -> TarcadeDrive(supp_xaxisVelocity.getAsDouble(), supp_zaxisRotate.getAsDouble()));
   }
 
   public void tankDrive(double supp_leftWheelVelocity, double supp_rightWheelVelocity) {
