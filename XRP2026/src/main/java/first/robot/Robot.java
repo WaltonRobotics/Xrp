@@ -57,15 +57,14 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     //CommandScheduler.getInstance().schedule(SimpleAutons.forward2_Feet(m_drivetrain));
-        m_drivetrain.resetEncoders();
-        CommandScheduler.getInstance().schedule(SimpleAutons.forward2_Feet(m_drivetrain));
+    m_drivetrain.resetEncoders();
+    CommandScheduler.getInstance().schedule(SimpleAutons.forward(m_drivetrain));
  // should make robot go backward NOT TESTED
     }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-
   }
 
   /** This function is called once when teleop is enabled. */
@@ -84,24 +83,24 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
       if(m_buttonPressedA.getAsBoolean() == true) {
-        //CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_tankLeftY, m_tankRightY));
-        m_drivetrain.resetEncoders();
-        CommandScheduler.getInstance().schedule(SimpleAutons.forward2_Feet(m_drivetrain));
+        CommandScheduler.getInstance().schedule(m_drivetrain.TarcadeDriveCmd(m_tankLeftY, m_tankRightY));
+        //m_drivetrain.resetEncoders();
+        //CommandScheduler.getInstance().schedule(SimpleAutons.forward2_Feet(m_drivetrain));
       }
       if(m_buttonPressedB.getAsBoolean() == true) {
-        //CommandScheduler.getInstance().schedule(m_drivetrain.arcadeDriveCmd(m_leftY, m_rightX));
-        m_drivetrain.resetEncoders();
-        CommandScheduler.getInstance().schedule(SimpleAutons.backward2_Feet(m_drivetrain)); 
+        CommandScheduler.getInstance().schedule(m_drivetrain.arcadeDriveCmd(m_leftY, m_rightX));
+        //m_drivetrain.resetEncoders();
+        //CommandScheduler.getInstance().schedule(SimpleAutons.GoStraight(m_drivetrain, 24.0)); 
       }
       if(m_buttonPressedY.getAsBoolean() == true) {
-        //CommandScheduler.getInstance().schedule(m_drivetrain.arcadeDriveCmd(m_scruedupdesignnumberunos, m_scruedupdesignnumberdos));
+        //CommandScheduler.getInstance().schedule(m_drivetrain.TarcadeDriveCmd(m_leftY, m_rightX));
         m_drivetrain.resetEncoders();
-        CommandScheduler.getInstance().schedule(SimpleAutons.dance(m_drivetrain)); 
+        CommandScheduler.getInstance().schedule(SimpleAutons.forward2_Feet(m_drivetrain)); 
       }   
        if(m_buttonPressedX.getAsBoolean() == true) {
-        CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_leftY, m_rightX));
-        //m_drivetrain.resetEncoders();
-        //CommandScheduler.getInstance().schedule(SimpleAutons.spinF(m_drivetrain));  
+        //CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_leftY, m_rightX));
+        m_drivetrain.resetEncoders();
+        CommandScheduler.getInstance().schedule(SimpleAutons.spinF(m_drivetrain));  
       }
   }
 

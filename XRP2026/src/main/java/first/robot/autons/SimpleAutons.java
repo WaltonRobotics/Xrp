@@ -45,11 +45,14 @@ public class SimpleAutons {
         );
     } 
    
+    
+    
+    
     public static Command forward(XRPDrivetrain drivetrain) {
-        return Commands.deadline( 
-             Commands.waitSeconds(1),
-             Commands.run(() -> drivetrain.arcadeDrive(1, 0))
-        );
+      //  return Commands.deadline( 
+      //       Commands.waitSeconds(1),
+        return Commands.run(() -> drivetrain.arcadeDrive(1, 0));
+        //);
     }
 
     public static Command wait(XRPDrivetrain drivetrain) {
@@ -75,6 +78,55 @@ public class SimpleAutons {
     public static Command spinF(XRPDrivetrain drivetrain) {
         return Commands.deadline( 
              Commands.run(() -> drivetrain.tankDrive(1, -1)) // Should Spin in place using tankDrive
+        );
+    }
+    
+    
+    
+    public static Command lForward(XRPDrivetrain drivetrain, Double distanceInInches) {
+        BooleanSupplier isDistanceMet = () -> (drivetrain.getLeftDistanceInch() >= distanceInInches);
+        return Commands.deadline( 
+            Commands.waitUntil(isDistanceMet) ,
+            Commands.run(() -> drivetrain.tankDrive(1, 0))
+        );
+    }
+    public static Command RForward(XRPDrivetrain drivetrain, Double distanceInInches) {
+        BooleanSupplier isDistanceMet = () -> (drivetrain.getRightDistanceInch() >= distanceInInches);
+        return Commands.deadline( 
+            Commands.waitUntil(isDistanceMet) ,
+            Commands.run(() -> drivetrain.tankDrive(0, 1))
+        );
+    }
+
+    public static Command lForward(XRPDrivetrain drivetrain, Double distanceInInches, int speed) {
+        BooleanSupplier isDistanceMet = () -> (drivetrain.getLeftDistanceInch() >= distanceInInches);
+        return Commands.deadline( 
+            Commands.waitUntil(isDistanceMet) ,
+            Commands.run(() -> drivetrain.tankDrive(speed, 0))
+        );
+    }
+    public static Command RForward(XRPDrivetrain drivetrain, Double distanceInInches, int speed) {
+        BooleanSupplier isDistanceMet = () -> (drivetrain.getRightDistanceInch() >= distanceInInches);
+        return Commands.deadline( 
+            Commands.waitUntil(isDistanceMet) ,
+            Commands.run(() -> drivetrain.tankDrive(0, speed))
+        );
+    }
+    
+    
+    
+    
+    public static Command GoStraight(XRPDrivetrain drivetrain, Double distanceInInches) {
+        return Commands.parallel(
+            lForward(drivetrain, distanceInInches),
+            RForward(drivetrain, distanceInInches)
+        );
+    }
+
+    public static Command GoStraight(XRPDrivetrain drivetrain, Double distanceInInches, int speed) {
+        return Commands.parallel(
+            lForward(drivetrain, distanceInInches, speed),
+            RForward(drivetrain, distanceInInches, speed)
         );
     }
 }
