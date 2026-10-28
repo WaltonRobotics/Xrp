@@ -19,11 +19,13 @@ public class SimpleAutons {
             ), */
             Commands.deadline(
                 Commands.waitSeconds(0.25),
-                Commands.run(() -> drivetrain.tankDrive(0, 0.9))      
+                Commands.run(() -> drivetrain.tankDrive(0, 1.65))      
             ),
                         Commands.deadline(
-                Commands.waitSeconds(1.6),
-                Commands.run(() -> drivetrain.tankDrive(1.0, 0.968))      
+                Commands.waitSeconds(1.14),
+                Commands.run(() -> drivetrain.tankDrive(1.0, 0.968))   
+
+                
             )
         );
     }
