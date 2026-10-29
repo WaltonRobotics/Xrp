@@ -7,6 +7,7 @@ package first.robot;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import first.robot.autons.SimpleAutons;
@@ -19,11 +20,10 @@ import first.robot.subsystems.XRPDrivetrain;
  */
 public class Robot extends TimedRobot {
   private final XRPDrivetrain m_drivetrain = new XRPDrivetrain();
-  private XboxController m_controller = new XboxController(0);
+  private Joystick m_controller = new Joystick(0);
 
-  private DoubleSupplier m_leftY = () -> -m_controller.getLeftY();
-  private DoubleSupplier m_rightX = () -> -m_controller.getRightX();
-
+  private DoubleSupplier m_leftY = () -> -m_controller.getRawAxis(0);
+  private DoubleSupplier m_rightY = () -> -m_controller.getRawAxis(4);
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
   /** This function is called once when teleop is enabled. */
   @Override
   public void teleopInit() {
-    CommandScheduler.getInstance().schedule(m_drivetrain.arcadeDriveCmd(m_leftY, m_rightX));
+    CommandScheduler.getInstance().schedule(m_drivetrain.tankDriveCmd(m_leftY, m_rightY));
   }
 
   /** This function is called periodically during operator control. */

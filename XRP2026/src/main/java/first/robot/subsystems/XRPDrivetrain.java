@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.xrp.XRPMotor;
+import edu.wpi.first.wpilibj.xrp.XRPMotor;                                                              
 
 public class XRPDrivetrain {
   private static final double kGearRatio =
@@ -63,5 +63,12 @@ public class XRPDrivetrain {
 
   public double getRightDistanceInch() {
     return rightEncoder.getDistance();
+  }
+      public void tankDrive(double leftY, double rightY) {
+      diffDrive.tankDrive(leftY, rightY);
+    }
+
+  public Command tankDriveCmd(DoubleSupplier supp_leftY, DoubleSupplier supp_rightY) {
+    return Commands.run(() -> tankDrive(supp_leftY.getAsDouble(), supp_rightY.getAsDouble()));
   }
 }
