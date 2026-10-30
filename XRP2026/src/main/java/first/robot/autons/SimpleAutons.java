@@ -12,8 +12,15 @@ public class SimpleAutons {
 
     public static Command forward(XRPDrivetrain drivetrain) {
         return Commands.deadline(
-            Commands.waitSeconds(3),
-            Commands.run(() -> drivetrain.arcadeDrive(0.7, 0))
+            Commands.waitSeconds(2),
+            Commands.run(() -> drivetrain.arcadeDrive(1, 0))
         );
+    }
+    public static Command score(XRPDrivetrain drivetrain) {
+        return Commands.deadline(
+            Commands.waitSeconds(2),
+            Commands.run(() -> drivetrain.arcadeDrive(1, 0)
+            .withTimeout(2)));
+
     }
 }

@@ -49,7 +49,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_drivetrain.resetEncoders();
-    CommandScheduler.getInstance().schedule(SimpleAutons.forward(m_drivetrain));
+    CommandScheduler.getInstance().schedule(SimpleAutons.score(m_drivetrain));
   }
 
   /** This function is called periodically during autonomous. */
