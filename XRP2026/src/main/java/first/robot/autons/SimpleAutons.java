@@ -28,7 +28,7 @@ public class SimpleAutons {
             
                 Commands.deadline(
                 Commands.waitSeconds(0.45),
-                Commands.run(() -> drivetrain.tankDrive(1.65, 0))      
+                Commands.run(() -> drivetrain.tankDrive(1.65, -0.5))      
             ), 
                 Commands.deadline(
                 Commands.waitSeconds(1.7),
