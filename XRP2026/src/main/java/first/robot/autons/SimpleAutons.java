@@ -21,12 +21,21 @@ public class SimpleAutons {
                 Commands.waitSeconds(0.25),
                 Commands.run(() -> drivetrain.tankDrive(0, 1.65))      
             ),
-                        Commands.deadline(
-                Commands.waitSeconds(1.14),
+            Commands.deadline(
+                Commands.waitSeconds(1.11),
                 Commands.run(() -> drivetrain.tankDrive(1.0, 0.968))   
+            ),
+            
+                Commands.deadline(
+                Commands.waitSeconds(0.45),
+                Commands.run(() -> drivetrain.tankDrive(1.65, 0))      
+            ), 
+                Commands.deadline(
+                Commands.waitSeconds(1.7),
+                Commands.run(() -> drivetrain.tankDrive(1.0, 0.968))      
+            )
 
                 
-            )
-        );
+            );
     }
 }
